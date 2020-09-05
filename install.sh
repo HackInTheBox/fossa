@@ -45,10 +45,10 @@ installscript() {
    # protect against shared memory attacks
    echo "tmpfs /run/shm tmpfs defaults,noexec,nosuid 0 0" | sudo tee -a /etc/fstab
    
-   exec bash
+
    echo; echo; echo
    echo "Please reboot the system to complete installation (/etc/fstab)"
-   
+   exec bash
 }
 
 installscript
