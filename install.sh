@@ -13,8 +13,6 @@ installscript() {
       echo "Script has already been run.  Running again WILL CAUSE PROBLEMS.  Exiting"
       exit
    fi
-   
-   echo "installed" > /home/$USER/.fossa.git.txt
 
    #secure
    sudo ufw enable
@@ -24,7 +22,7 @@ installscript() {
    read -p "Enter a new hostname for this machine: " NEWNAME
    sudo hostname $NEWNAME
    #sudo sed -i 's/Name=Xfce Session/Name=Xfce_Session/' /usr/share/xsessions/xfce.desktop
-   sudo sed -i "s/127.0.1.1\t.*/127.0.1.1\t$NEWNAME" /etc/hosts
+   sudo sed -i "s/127.0.1.1\t.*/127.0.1.1\t$NEWNAME/" /etc/hosts
 
    # update
    sudo apt -y update && sudo apt -y dist-upgrade
