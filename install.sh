@@ -69,6 +69,7 @@ installscript() {
    # copy global bashrc commands to /etc/profile.d/
    sudo cp $GITLOC/global-bashrc.sh /etc/profile.d/global-bashrc.sh >> $LOGFIL
    
+   xrandr -s 1920x1080
    
    # print a summary
    echo; echo; echo
