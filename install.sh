@@ -7,12 +7,18 @@
 
 
 installscript() {
-   if [[ ! -f /home/$USER/.fossa.git.txt ]]; then
-      echo "installed" > /home/$USER/.fossa.git.txt
+
+   LOGFIL=$HOME/.fossa.git.txt
+   GITLOC=/home/$USER/git/fossa
+   DOWNLO=/home/$USER/Downloads  
+
+   if [[ ! -f $LOGFIL ]]; then
+      echo "installed" > $LOGFIL
    else
       echo "Script has already been run.  Running again WILL CAUSE PROBLEMS.  Exiting"
       exit
    fi
+
 
    #secure
    sudo ufw enable
@@ -21,29 +27,29 @@ installscript() {
    echo "**Enter only lowercase letters! No spaces!**"
    read -p "Enter a new hostname for this machine: " NEWNAME
    sudo hostname $NEWNAME
-   #sudo sed -i 's/Name=Xfce Session/Name=Xfce_Session/' /usr/share/xsessions/xfce.desktop
+   # change /etc/hosts
    sudo sed -i "s/127.0.1.1\t.*/127.0.1.1\t$NEWNAME/" /etc/hosts
 
    # update
-   sudo apt -y update && sudo apt -y dist-upgrade
+   sudo apt -y update && sudo apt -y dist-upgrade >> $LOGFIL
    sudo apt autoremove
    sudo snap refresh
 
    # download and install 'NoMachine"
-   mkdir -p /home/$USER/Downloads
-   cd /home/$USER/Downloads
+   mkdir -p $DOWNLO
+   cd $DOWNLO
    wget -nv https://download.nomachine.com/download/6.11/Linux/nomachine_6.11.2_1_amd64.deb
-   sudo apt install /home/$USER/Downloads/nomachine_6.11.2_1_amd64.deb
+   sudo apt-get -y install /home/$USER/Downloads/nomachine_6.11.2_1_amd64.deb >> $LOGFIL
    sudo ufw allow 4000
 
    # download and install openssh-server
-   sudo apt -y install openssh-server
+   sudo apt-get -y install openssh-server >> $LOGFIL
    sudo ufw allow openssh
    
-   sudo apt -y install curl
+   sudo apt-get -y install curl >> $LOGFIL
    
    # protect against shared memory attacks
-   echo "tmpfs /run/shm tmpfs defaults,noexec,nosuid 0 0" | sudo tee -a /etc/fstab
+   echo "tmpfs /run/shm tmpfs defaults,noexec,nosuid 0 0" | sudo tee -a /etc/fstab >> $LOGFIL
    cd /home/$USER/git/fossa
    echo; echo; echo
       ip -br -c a
