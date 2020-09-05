@@ -83,6 +83,10 @@ installscript() {
    echo "Copying $GITLOC/monitors.xml to $HOME/.config/monitors.xml ... " | tee -a $LOGFIL
    cat $GITLOC/monitors.xml >> $LOGFIL
    
+   # load settings for gedit, gnome editor
+   # settings file can be created with "dconf dump /org/gnome/gedit/ > ~/gedit.conf
+   dconf load -f /org/gnome/gedit/ < $GITLOC/gedit.conf
+   
    # print a summary
    echo; echo; echo
       ip -br -c a | tee -a $LOGFIL
