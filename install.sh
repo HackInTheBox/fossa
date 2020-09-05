@@ -31,7 +31,7 @@ installscript() {
    sudo sed -i "s/127.0.1.1\t.*/127.0.1.1\t$NEWNAME/" /etc/hosts
 
    # update
-   sudo apt -y update && sudo apt -y dist-upgrade >> $LOGFIL
+   sudo apt-get -y update >> $LOGFIL && sudo apt-get -y dist-upgrade >> $LOGFIL
    sudo apt autoremove
    sudo snap refresh
 
