@@ -66,6 +66,10 @@ installscript() {
    # remove the need for certain commands to be password protected 
    echo "$USER ALL=(ALL) NOPASSWD: /usr/sbin/reboot,/usr/sbin/poweroff" | sudo tee -a /etc/sudoers >> $LOGFIL
    
+   # copy global bashrc commands to /etc/profile.d/
+   sudo cp $GITLOC/global-bashrc.sh /etc/profile.d/global-bashrc.sh >> $LOGFIL
+   
+   
    # print a summary
    echo; echo; echo
       ip -br -c a
