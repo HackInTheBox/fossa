@@ -50,7 +50,7 @@ installscript() {
    echo; echo; echo
       sudo ufw status verbose
    echo; echo; echo
-      echo "Please reboot the system to complete installation (/etc/fstab)"
+      echo "Type reboot to restart the system and complete installation"
    echo; echo; echo
       exec bash
 }
