@@ -44,11 +44,15 @@ installscript() {
    
    # protect against shared memory attacks
    echo "tmpfs /run/shm tmpfs defaults,noexec,nosuid 0 0" | sudo tee -a /etc/fstab
-   
-
+   cd /home/$USER/git/fossa
    echo; echo; echo
-   echo "Please reboot the system to complete installation (/etc/fstab)"
-   exec bash
+      ip -br -c a
+   echo; echo; echo
+      sudo ufw status verbose
+   echo; echo; echo
+      echo "Please reboot the system to complete installation (/etc/fstab)"
+   echo; echo; echo
+      exec bash
 }
 
 installscript
