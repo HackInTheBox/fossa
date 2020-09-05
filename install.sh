@@ -8,7 +8,7 @@
 
 installscript() {
 
-   LOGFIL=$HOME/.fossa.git.txt
+   LOGFIL=$HOME/.fossa-git.log
    GITLOC=/home/$USER/git/fossa
    DOWNLO=/home/$USER/Downloads  
 
@@ -24,18 +24,22 @@ installscript() {
    sudo ufw enable
    
    # change the hostname
-   echo "**Enter only lowercase letters! No spaces!**"
+   echo "**Enter only lowercase letters. No spaces. One shot. No re-do's.**"
    read -p "Enter a new hostname for this machine: " NEWNAME
-   echo "Setting hostname to $NEWNAME ..."
+   echo "Setting hostname to $NEWNAME ..." | tee -a $LOGFIL
    sudo hostname $NEWNAME
    sudo hostnamectl set-hostname $NEWNAME
    # change /etc/hosts
       # get the gateway IP address from router
+      echo "/etc/hosts file before name change ..." >> $LOGFIL
+      sudo cat /etc/hosts >> $LOGFIL
       GATEWY=$(ip route | grep -v tun | grep default | cut -d " " -f 3)
       # resolve the gateway IP into a top-level-domain so a FQDN can be written next
       LANTLD=$(nslookup $GATEWY | grep 'name =' | sed 's/.*name\s\=\s[a-zA-Z0-9\-_]*\.//g' | sed 's/\.$//g')
    sudo sed -i "s/127.0.1.1\t.*/127.0.1.1\t$NEWNAME\.$LANTLD\ $NEWNAME/" /etc/hosts
    sudo sed -i "s/127.0.0.1\t.*/127.0.0.1\tlocalhost\.$LANTLD\ localhost/" /etc/hosts
+   echo "/etc hosts AFTER hostname change ..." >> $LOGFIL
+   sudo cat /etc/hosts >> $LOGFIL
 
    # update
    echo "Updating system ..."
@@ -61,21 +65,25 @@ installscript() {
    
    # protect against shared memory attacks
    echo "Configuring security ..."
+   echo "Line added to /etc/fstab ..." >> $LOGFIL
    echo "tmpfs /run/shm tmpfs defaults,noexec,nosuid 0 0" | sudo tee -a /etc/fstab >> $LOGFIL
    cd $GITLOC
    # remove the need for certain commands to be password protected 
+   echo "Line added to /etc/sudoers ..." >> $LOGFIL
    echo "$USER ALL=(ALL) NOPASSWD: /usr/sbin/reboot,/usr/sbin/poweroff" | sudo tee -a /etc/sudoers >> $LOGFIL
    
    # copy global bashrc commands to /etc/profile.d/
+   echo "File /etc/profile.d/global-bashrc.sh added ..." >> $LOGFIL
+   cat $GITLOC/global-bashrc.sh >> $LOGFIL
    sudo cp $GITLOC/global-bashrc.sh /etc/profile.d/global-bashrc.sh >> $LOGFIL
    
    xrandr -s 1920x1080
    
    # print a summary
    echo; echo; echo
-      ip -br -c a
+      ip -br -c a | tee -a $LOGFIL
    echo; echo; echo
-      sudo ufw status verbose
+      sudo ufw status verbose | tee -a $LOGFIL
    echo; echo; echo
       echo "Type reboot to restart the system and complete installation"
    echo; echo; echo
