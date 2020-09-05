@@ -80,7 +80,7 @@ installscript() {
       echo "Type reboot to restart the system and complete installation"
    echo; echo; echo
       sudo dhclient -r
-      exec bash
+   echo "View logs at $LOGFIL"
 }
 
 installscript
