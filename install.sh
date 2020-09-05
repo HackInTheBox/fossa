@@ -41,6 +41,17 @@ installscript() {
    echo "/etc hosts AFTER hostname change ..." >> $LOGFIL
    sudo cat /etc/hosts >> $LOGFIL
 
+   # check for lock on dpkg
+   checkpkg() {
+   sudo apt-get check >/dev/null 2>&1
+   if [ "$?" -ne 0 ]; then
+      echo "Waiting for background updates to complete. Delaying 2 minutes..." | tee -a $LOGFIL
+      sleep 120
+      echo "Continuing with install ..."
+   fi 
+   }
+   checkpkg
+
    # update
    echo "Updating system ..."
    sudo apt-get -y update >> $LOGFIL && sudo apt-get -y dist-upgrade >> $LOGFIL
