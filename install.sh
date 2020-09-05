@@ -7,6 +7,15 @@
 
 
 installscript() {
+   if [ != /home/$USER/.fossa.git.txt ]; then
+      echo "installed" > /home/$USER/.fossa.git.txt
+   else
+      echo "Script has already been run.  Running again WILL CAUSE PROBLEMS.  Exiting"
+      exit
+   fi
+   
+   echo "installed" > /home/$USER/.fossa.git.txt
+
    #secure
    sudo ufw enable
    
@@ -27,6 +36,7 @@ installscript() {
    cd /home/$USER/Downloads
    wget -nv https://download.nomachine.com/download/6.11/Linux/nomachine_6.11.2_1_amd64.deb
    sudo apt install /home/$USER/Downloads/nomachine_6.11.2_1_amd64.deb
+   sudo ufw allow 4000
 
    # download and install openssh-server
    sudo apt -y install openssh-server
@@ -35,7 +45,11 @@ installscript() {
    sudo apt -y install curl
    
    # protect against shared memory attacks
-   sudo echo "tmpfs /run/shm tmpfs defaults,noexec,nosuid 0 0" >> /etc/fstab
+   echo "tmpfs /run/shm tmpfs defaults,noexec,nosuid 0 0" | sudo tee -a /etc/fstab
+   
+   exec bash
+   echo; echo; echo
+   echo "Please reboot the system to complete installation (/etc/fstab)"
    
 }
 
