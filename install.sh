@@ -7,7 +7,7 @@
 
 
 installscript() {
-   if [ != /home/$USER/.fossa.git.txt ]; then
+   if [ ! /home/$USER/.fossa.git.txt ]; then
       echo "installed" > /home/$USER/.fossa.git.txt
    else
       echo "Script has already been run.  Running again WILL CAUSE PROBLEMS.  Exiting"
