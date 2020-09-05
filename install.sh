@@ -61,7 +61,7 @@ installscript() {
    sudo ufw allow openssh
    
    echo "Installing additional utilities ..."
-   sudo apt-get -y install curl >> $LOGFIL
+   sudo apt-get -y install curl tasksel >> $LOGFIL
    
    # protect against shared memory attacks
    echo "Configuring security ..."
@@ -77,11 +77,11 @@ installscript() {
    cat $GITLOC/global-bashrc.sh >> $LOGFIL
    sudo cp $GITLOC/global-bashrc.sh /etc/profile.d/global-bashrc.sh >> $LOGFIL
    
-   xrandr -s 1920x1080
-   RESLOC=/etc/profile.d/HD-Resolution.sh
-   echo "File added - $RESLOC" >> $LOGFIL
-   echo "xrandr -s 1920x1080" | sudo tee $RESLOC >> $LOGFIL
-   sleep 1
+   # set resolution for current user
+   cp $GITLOC/monitors.xml $HOME/.config/monitors.xml
+   echo "Changing monitor resolution settings ... " | tee -a $LOGFIL
+   echo "Copying $GITLOC/monitors.xml to $HOME/.config/monitors.xml ... " >> $LOGFIL
+   cat $GITLOC/monitors.xml >> $LOGFIL
    
    # print a summary
    echo; echo; echo
