@@ -80,7 +80,7 @@ installscript() {
    # set resolution for current user
    cp $GITLOC/monitors.xml $HOME/.config/monitors.xml
    echo "Changing monitor resolution settings ... " | tee -a $LOGFIL
-   echo "Copying $GITLOC/monitors.xml to $HOME/.config/monitors.xml ... " >> $LOGFIL
+   echo "Copying $GITLOC/monitors.xml to $HOME/.config/monitors.xml ... " | tee -a $LOGFIL
    cat $GITLOC/monitors.xml >> $LOGFIL
    
    # print a summary
