@@ -39,4 +39,6 @@ installscript() {
    
 }
 
+installscript
+
 
