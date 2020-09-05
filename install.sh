@@ -26,6 +26,7 @@ installscript() {
    # change the hostname
    echo "**Enter only lowercase letters! No spaces!**"
    read -p "Enter a new hostname for this machine: " NEWNAME
+   echo "Setting hostname to $NEWNAME ..."
    sudo hostname $NEWNAME
    sudo hostnamectl set-hostname $NEWNAME
    # change /etc/hosts
@@ -37,11 +38,13 @@ installscript() {
    sudo sed -i "s/127.0.0.1\t.*/127.0.0.1\tlocalhost\.$LANTLD\ localhost/" /etc/hosts
 
    # update
+   echo "Updating system ..."
    sudo apt-get -y update >> $LOGFIL && sudo apt-get -y dist-upgrade >> $LOGFIL
    sudo apt autoremove
    sudo snap refresh
 
    # download and install 'NoMachine"
+   echo "Installing NoMachine ..."
    mkdir -p $DOWNLO
    cd $DOWNLO
    wget -nv https://download.nomachine.com/download/6.11/Linux/nomachine_6.11.2_1_amd64.deb
@@ -49,16 +52,19 @@ installscript() {
    sudo ufw allow 4000
 
    # download and install openssh-server
+   echo "Installing OpenSSH Server ..."
    sudo apt-get -y install openssh-server >> $LOGFIL
    sudo ufw allow openssh
    
+   echo "Installing additional utilities ..."
    sudo apt-get -y install curl >> $LOGFIL
    
    # protect against shared memory attacks
+   echo "Configuring security ..."
    echo "tmpfs /run/shm tmpfs defaults,noexec,nosuid 0 0" | sudo tee -a /etc/fstab >> $LOGFIL
    cd $GITLOC
    # remove the need for certain commands to be password protected 
-   echo "$USER ALL=NOPASSWD:/usr/sbin/reboot,/usr/sbin/poweroff" | sudo tee -a /etc/sudoers >> $LOGFIL
+   echo "$USER ALL=(ALL) NOPASSWD: /usr/sbin/reboot,/usr/sbin/poweroff" | sudo tee -a /etc/sudoers >> $LOGFIL
    
    # print a summary
    echo; echo; echo
@@ -73,5 +79,6 @@ installscript() {
 }
 
 installscript
+reboot
 
 
