@@ -89,9 +89,10 @@ installscript() {
    echo; echo; echo
       sudo dhclient -r
    echo "View logs at $LOGFIL"
+   exec bash
 }
 
 installscript
-reboot
+
 
 
