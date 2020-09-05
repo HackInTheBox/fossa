@@ -27,8 +27,14 @@ installscript() {
    echo "**Enter only lowercase letters! No spaces!**"
    read -p "Enter a new hostname for this machine: " NEWNAME
    sudo hostname $NEWNAME
+   sudo hostnamectl set-hostname $NEWNAME
    # change /etc/hosts
-   sudo sed -i "s/127.0.1.1\t.*/127.0.1.1\t$NEWNAME/" /etc/hosts
+      # get the gateway IP address from router
+      GATEWY=$(ip route | grep -v tun | grep default | cut -d " " -f 3)
+      # resolve the gateway IP into a top-level-domain so a FQDN can be written next
+      LANTLD=$(nslookup $GATEWY | grep 'name =' | sed 's/.*name\s\=\s[a-zA-Z0-9\-_]*\.//g' | sed 's/\.$//g')
+   sudo sed -i "s/127.0.1.1\t.*/127.0.1.1\t$NEWNAME\.$LANTLD\ $NEWNAME/" /etc/hosts
+   sudo sed -i "s/127.0.0.1\t.*/127.0.0.1\tlocalhost\.$LANTLD\ localhost/" /etc/hosts
 
    # update
    sudo apt-get -y update >> $LOGFIL && sudo apt-get -y dist-upgrade >> $LOGFIL
@@ -50,7 +56,11 @@ installscript() {
    
    # protect against shared memory attacks
    echo "tmpfs /run/shm tmpfs defaults,noexec,nosuid 0 0" | sudo tee -a /etc/fstab >> $LOGFIL
-   cd /home/$USER/git/fossa
+   cd $GITLOC
+   # remove the need for certain commands to be password protected 
+   echo "$USER ALL=NOPASSWD:/usr/sbin/reboot,/usr/sbin/poweroff" | sudo tee -a /etc/sudoers >> $LOGFIL
+   
+   # print a summary
    echo; echo; echo
       ip -br -c a
    echo; echo; echo
@@ -58,6 +68,7 @@ installscript() {
    echo; echo; echo
       echo "Type reboot to restart the system and complete installation"
    echo; echo; echo
+      sudo dhclient -r
       exec bash
 }
 
