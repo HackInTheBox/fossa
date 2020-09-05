@@ -78,6 +78,9 @@ installscript() {
    sudo cp $GITLOC/global-bashrc.sh /etc/profile.d/global-bashrc.sh >> $LOGFIL
    
    xrandr -s 1920x1080
+   RESLOC=/etc/profile.d/HD-Resolution.sh
+   echo "File added - $RESLOC" >> $LOGFIL
+   echo "xrandr -s 1920x1080" | sudo tee $RESLOC >> $LOGFIL
    sleep 1
    
    # print a summary
