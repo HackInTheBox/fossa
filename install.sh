@@ -61,7 +61,7 @@ installscript() {
    sudo ufw allow openssh
    
    echo "Installing additional utilities ..."
-   sudo apt-get -y install curl tasksel >> $LOGFIL
+   sudo apt-get -y install curl tasksel fail2ban >> $LOGFIL
    
    # protect against shared memory attacks
    echo "Configuring security ..."
