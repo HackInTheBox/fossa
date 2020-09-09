@@ -55,8 +55,12 @@ installscript() {
    # update
    echo "Updating system ..."
    sudo apt-get -y update >> $LOGFIL && sudo apt-get -y dist-upgrade >> $LOGFIL
-   sudo apt autoremove
+   sudo apt -y autoremove
    sudo snap refresh
+
+   # install qemu-guest-agent for vitural machines
+   sudo apt-get -y install qemu-guest-agent
+   sudo systemctl start qemu-guest-agent | tee -a $LOGFIL
 
    # download and install 'NoMachine"
    echo "Installing NoMachine ..."
