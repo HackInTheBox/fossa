@@ -104,7 +104,7 @@ installscript() {
    
    # print a summary
    echo; echo; echo
-      ip -br -c a | tee -a $LOGFIL
+      ip -br a | tee -a $LOGFIL
    echo; echo; echo
       sudo ufw status verbose | tee -a $LOGFIL
    echo; echo; echo
