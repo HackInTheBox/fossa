@@ -1,0 +1,1 @@
+# The packages folder contains packages to download and install during the 'github/fossa' install script when initializing a new Ubuntu 20 desktop image.  This is a new change so that packages can be managed seperately so users do not have to directly edit the install.sh file.
