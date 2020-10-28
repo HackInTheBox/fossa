@@ -1,10 +1,27 @@
 # download and install 'NoMachine"
+
 nomachi() {
-echo "Installing NoMachine ..."
-mkdir -p "$DOWNLO"
 cd "$DOWNLO"
-wget -nv https://download.nomachine.com/download/6.11/Linux/nomachine_6.11.2_1_amd64.deb
-sudo apt-get -y install ./nomachine_6.11.2_1_amd64.deb
+
+# Download Nomachine HTML download page to temp file
+wget -nv -O ./nomachine.temp "https://www.nomachine.com/download/download&id=2"
+
+# Scrape the latest version and actual download link
+# As long as the above download page stays the same, this code will automatically get the latest version
+targetfile="$(cat ./nomachine.temp | grep -E -o 'https(.*)deb')"
+
+# Remove temp html file
+rm ./nomachine.temp
+
+# Download latest version
+wget -nv "$targetfile"
+
+# Install
+packagename="$(basename $targetfile)"
+sudo apt -y install ./"$packagename"
+
+# Allow incoming connections on firewall
 sudo ufw allow 4000
+
 }
 nomachi | tee -a "$LOGFIL"
