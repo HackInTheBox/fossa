@@ -11,6 +11,7 @@ installscript() {
    declare -g LOGFIL="$HOME/.fossa-git.log"
    declare -g GITLOC="$HOME/git/fossa"
    declare -g DOWNLO="$HOME/Downloads"
+   declare -g FAVFILE="$GITLOC/resources/gnome-favorite-apps.conf"
    
    mkdir -p "$DOWNLO"
 
@@ -69,6 +70,16 @@ installscript() {
       fi
    }
    runxtrascripts | tee -a "$LOGFIL"
+   
+   # Load favorite apps from successful installs
+   loadfavs() {
+   if [ -f "$FAVFILE" ]; then
+      gsettings set org.gnome.shell favorite-apps "$(cat $FAVFILE)"
+   else   
+      echo "Favorites config file not found.  Skipping..."
+   fi
+   }
+   loadfavs | tee -a "$LOGFIL"
 
    # print a summary
    clear
