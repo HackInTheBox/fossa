@@ -51,7 +51,7 @@ installscript() {
    # INSTALL PACKAGES
    runinstalls() {
       if [ -d "$GITLOC"/packages ]; then
-         for installitem in "$GITLOC/packages/*.sh"; do
+         for installitem in "$GITLOC"/packages/*.sh; do
             source "$installitem"
          done
       fi
