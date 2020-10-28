@@ -48,7 +48,7 @@ installscript() {
 
    # INSTALL PACKAGES
    runinstalls() {
-      if [[ -d "$GITLOC/packages" ]]; then
+      if [ -d "$GITLOC"/packages ]; then
          for installitem in "$GITLOC/packages/*.sh"; do
             source "$installitem"
          done
@@ -58,8 +58,8 @@ installscript() {
 
    # RUN EXTRA SCRIPTS
    runxtrascripts() {
-      if [[ -d "$GITLOC/scripts" ]]; then
-         for scriptitem in "$GITLOC/scripts/*.sh"; do
+      if [ -d "$GITLOC"/scripts ]; then
+         for scriptitem in "$GITLOC"/scripts/*.sh; do
             source "$scriptitem"
          done
       fi
