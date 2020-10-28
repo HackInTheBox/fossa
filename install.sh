@@ -44,6 +44,8 @@ installscript() {
 
    # update
    echo "Updating system ..."
+   echo "Open a new terminal window and type the following command to watch progress:"
+   echo "watch -n .5 'tail $LOGFIL' "
    sudo apt-get -y update >> "$LOGFIL" && sudo apt-get -y dist-upgrade >> "$LOGFIL"
    sudo apt -y autoremove
    sudo snap refresh
