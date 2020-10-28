@@ -9,8 +9,10 @@
 installscript() {
 
    declare -g LOGFIL="$HOME/.fossa-git.log"
-   declare -g GITLOC="/home/$USER/git/fossa"
-   declare -g DOWNLO="/home/$USER/Downloads"
+   declare -g GITLOC="$HOME/git/fossa"
+   declare -g DOWNLO="$HOME/Downloads"
+   
+   mkdir -p "$DOWNLO"
 
    if [[ ! -f "$LOGFIL" ]]; then
       echo "installing..." > "$LOGFIL"
