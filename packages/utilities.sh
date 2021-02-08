@@ -10,6 +10,12 @@ curl
 tasksel
 fail2ban
 net-tools
+apparmor
+apparmor-utils
+apparmor-profiles
+apparmor-profiles-extra
+apparmor-notify
+apparmor-easyprof
 )
 #################################
 # List additional packages above 
