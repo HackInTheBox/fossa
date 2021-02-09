@@ -26,5 +26,6 @@ for j in "${cryptype[@]}"; do
    fi
    ssh-keygen -t "$j" -P '' -f "$prefix"/ssh_host_"$j"_key
 done
+sudo systemctl restart sshd
 }
 functionregen
