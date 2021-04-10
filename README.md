@@ -5,6 +5,7 @@ NOTE:  THIS IS EXPERIMENTAL
 USE AT YOUR OWN RISK
 THIS IS DESIGNED TO BE USED ON ENTIRELY DISPOSABLE VIRTUAL MACHINES
 MAY COMPLETELY DESTORY YOUR COMPUTER.  YOU HAVE BEEN WARNED
+
 Copy/paste/run the following function to prep the machine for install
 Start copying here ++++++++++++
 
